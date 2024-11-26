@@ -1,0 +1,14 @@
+services:
+  fullstack-project-ono:
+    container_name: ono-database
+    image: postgres:16.4
+    ports:
+      - 5432:5432
+    volumes:
+      - ono-database:/var/lib/postgresql/database
+    environment:
+      POSTGRES_DB: onodb
+      POSTGRES_USER: Gwen
+      POSTGRES_PASSWORD: password
+volumes:
+  ono-database:
