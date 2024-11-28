@@ -13,9 +13,9 @@ public class GrammarConverter implements Converter<Grammar,GrammarDto> {
     public GrammarDto convert(Grammar grammaire) {
         
         return GrammarDto.builder()
-                .id(grammaire.getIdGrammar())
+                .id(grammaire.getId())
                 .notion(grammaire.getNotion())
-                .idListeGrammaire(grammaire.getIdListeGrammaire())
+                .idListeGrammaire(grammaire.getGrammarList().getId())
                 .build();
     }
 

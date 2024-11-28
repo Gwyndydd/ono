@@ -13,11 +13,11 @@ public class VocabularyConverter implements Converter<Vocabulary, VocabularyDto>
     public VocabularyDto convert(Vocabulary voca){
 
         return VocabularyDto.builder()
-                .idVoca(voca.getIdVoca())
+                .idVoca(voca.getId())
                 .word(voca.getWord())
                 .definition(voca.getDefinition())
-                .idListe(voca.getIdListeVoca())
-                .type(voca.getType())
+                .idListe(voca.getListVoca().getId())
+                .type(voca.getType().name())
                 .build();
     }
     

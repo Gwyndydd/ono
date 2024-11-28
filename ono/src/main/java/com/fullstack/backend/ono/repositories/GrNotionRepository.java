@@ -6,12 +6,11 @@ import org.springframework.stereotype.Repository;
 import com.fullstack.backend.ono.models.entities.GrammarNotion;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Repository
 public interface GrNotionRepository extends JpaRepository<GrammarNotion, UUID>  {
 
-    List<GrammarNotion> findAllbyGrammar(UUID idGrammar);
+    List<GrammarNotion> findAllByGrammarId(UUID idGrammar);
 
 }

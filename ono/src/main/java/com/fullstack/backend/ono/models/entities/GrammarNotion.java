@@ -34,8 +34,8 @@ public class GrammarNotion extends AuditDateEntity {
     private String concept;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "grammar_id", columnDefinition = "UUID", nullable = false)
-    private UUID grammarNotion;
+    @JoinColumn(name = "grammar", columnDefinition = "UUID", nullable = false)
+    private Grammar grammar;
 
 
     

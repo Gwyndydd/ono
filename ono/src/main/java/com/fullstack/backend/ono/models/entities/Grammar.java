@@ -28,14 +28,14 @@ public class Grammar extends AuditDateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID idGrammar;
+    private UUID id;
 
     @Column(name = "notion", columnDefinition = "VARCHAR(1000)", nullable = false)
     private String notion;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "liste_grammaire", columnDefinition = "UUID", nullable = false)
-    private UUID idListeGrammaire;
+    @JoinColumn(name = "liste_grammaire_id", columnDefinition = "UUID", nullable = false)
+    private GrammarList grammarList;
 
     
 }

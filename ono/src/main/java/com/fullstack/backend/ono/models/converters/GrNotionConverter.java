@@ -15,7 +15,7 @@ public class GrNotionConverter implements Converter<GrammarNotion, GrNotionDto> 
         return GrNotionDto.builder()
                 .id(notion.getId())
                 .concept(notion.getConcept())
-                .grammarNotion(notion.getGrammarNotion())
+                .grammarNotion(notion.getGrammar().getId())
                 .build();
     }
     

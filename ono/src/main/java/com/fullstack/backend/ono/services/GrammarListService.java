@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fullstack.backend.ono.exceptions.NotFoundException;
 import com.fullstack.backend.ono.exceptions.errors.GrammarListErrorCode;
 import com.fullstack.backend.ono.exceptions.errors.StudyProgramErrorCode;
+import com.fullstack.backend.ono.exceptions.errors.UserErrorCode;
 import com.fullstack.backend.ono.models.constants.Langues;
 import com.fullstack.backend.ono.models.converters.GrammarListConverter;
 import com.fullstack.backend.ono.models.dtos.GrammarListDto;
@@ -17,7 +18,10 @@ import com.fullstack.backend.ono.models.dtos.StudyProgramDto;
 import com.fullstack.backend.ono.models.dtos.UserDto;
 import com.fullstack.backend.ono.models.entities.GrammarList;
 import com.fullstack.backend.ono.models.entities.StudyProgram;
+import com.fullstack.backend.ono.models.entities.User;
 import com.fullstack.backend.ono.repositories.GrammarListRepository;
+import com.fullstack.backend.ono.repositories.StudyProgramRepository;
+import com.fullstack.backend.ono.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +33,8 @@ public class GrammarListService implements BaseService {
 
     private final GrammarListRepository listGrammarRepository;
     private final GrammarListConverter listGrammarConverter;
+    private final StudyProgramRepository studyProgrammRepository;
+    private final UserRepository userRepository;
 
     /**
      * 
@@ -42,7 +48,7 @@ public class GrammarListService implements BaseService {
 
         Langues langue = Langues.getByName(gDto.getLangueEtudie());
 
-        listGrammarRepository.findByOwnerName(user.getId(), gDto.getName())
+        listGrammarRepository.findByNameAndOwnerId(gDto.getName(),user.getId())
             .ifPresent( list -> {
                 log.info("This list of grammar already exist : {}", list.getName());
                 throw new NotFoundException(GrammarListErrorCode.ALREADY_EXISTS);
@@ -51,8 +57,8 @@ public class GrammarListService implements BaseService {
         GrammarList gList = GrammarList.builder()
                 .name(gDto.getName())
                 .langueEtudie(langue)
-                .idProgrammeEtude(gDto.getIdProgrammeEtude())
-                .idOwner(user.getId())
+                .studyProgram((gDto.getIdProgrammeEtude() == null) ? null: getStudyProgrammOrError(gDto.getIdProgrammeEtude()))
+                .owner(getUserOrError(user.getId()))
                 .prive(gDto.getPrive())
                 .build();
 
@@ -75,7 +81,7 @@ public class GrammarListService implements BaseService {
                             .orElseThrow(()-> new NotFoundException(GrammarListErrorCode.NOT_FOUND));
                             
         
-        glist.setIdProgrammeEtude(dto.getId());
+        glist.setStudyProgram((dto.getId() == null) ? null: getStudyProgrammOrError(dto.getId()));
 
         return listGrammarConverter.convert(listGrammarRepository.save(glist));
 
@@ -142,7 +148,7 @@ public class GrammarListService implements BaseService {
     public GrammarListDto getGrammarListByOwnerName(String name, UserDto user){
         log.info("Retrieving programm by name : {}", name);
 
-        return listGrammarRepository.findByOwnerName(user.getId(), name)
+        return listGrammarRepository.findByNameAndOwnerId(name,user.getId())
                 .map(listGrammarConverter::convert)
                 .orElseThrow(()-> new NotFoundException(GrammarListErrorCode.NOT_FOUND));
     }
@@ -156,13 +162,23 @@ public class GrammarListService implements BaseService {
     public List<GrammarListDto> getAllGrammarListByOwner(UserDto userDto){
         log.info("Finding all study program of : {}", userDto.getUsername());
 
-       List<GrammarList> listG = listGrammarRepository.findAllByOwner(userDto.getId());
+       List<GrammarList> listG = listGrammarRepository.findAllByOwnerId(userDto.getId());
        
        return listG.stream().map(listGrammarConverter::convert).collect(Collectors.toList());
     
     }
 
+    
 
+    private User getUserOrError(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(UserErrorCode.NOT_FOUND));
+    }
+
+    private StudyProgram getStudyProgrammOrError(UUID studyProgrammId) {
+        return studyProgrammRepository.findById(studyProgrammId)
+                .orElseThrow(() -> new NotFoundException(StudyProgramErrorCode.NOT_FOUND));
+    }
 
 
     

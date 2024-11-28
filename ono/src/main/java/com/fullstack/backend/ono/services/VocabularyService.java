@@ -9,10 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.backend.ono.exceptions.NotFoundException;
 import com.fullstack.backend.ono.exceptions.errors.VocabularyErrorCode;
+import com.fullstack.backend.ono.exceptions.errors.VocabularyListErrorCode;
 import com.fullstack.backend.ono.models.constants.TypeVocabulary;
 import com.fullstack.backend.ono.models.converters.VocabularyConverter;
 import com.fullstack.backend.ono.models.dtos.VocabularyDto;
 import com.fullstack.backend.ono.models.entities.Vocabulary;
+import com.fullstack.backend.ono.models.entities.VocabularyList;
+import com.fullstack.backend.ono.repositories.VocaListRepository;
 import com.fullstack.backend.ono.repositories.VocabularyRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class VocabularyService implements BaseService {
 
     private final VocabularyConverter vocabularyConverter;
     private final VocabularyRepository vocabularyRepository;
+    private final VocaListRepository vocaListRepository;
 
     /**
      * 
@@ -36,7 +40,7 @@ public class VocabularyService implements BaseService {
     public VocabularyDto registerVocabulary(VocabularyDto dto, UUID idList){
         log.info("Registering vocabulaire : {}", dto.getWord());
 
-        vocabularyRepository.findbyWordList(dto.getWord(), idList)
+        vocabularyRepository.findByWordAndListVocaId(dto.getWord(), idList)
         .ifPresent(voca ->{
                 log.info("This word already exists : {}", voca.getWord());
                 throw new NotFoundException(VocabularyErrorCode.ALREADY_EXISTS);
@@ -45,7 +49,7 @@ public class VocabularyService implements BaseService {
         Vocabulary sP = Vocabulary.builder()
             .word(dto.getWord())
             .definition(dto.getDefinition())
-            .idListeVoca(idList)
+            .listVoca(getVocaListOrError(idList))
             .type(TypeVocabulary.getByName(dto.getType()))
             .build();
         
@@ -101,7 +105,7 @@ public class VocabularyService implements BaseService {
     public VocabularyDto getVocabularybyWordOwner(String word, UUID idList){
         log.info("Retrieving vocabulary by word : {}", word);
 
-        return vocabularyRepository.findbyWordList(word, idList)
+        return vocabularyRepository.findByWordAndListVocaId(word, idList)
                 .map(vocabularyConverter::convert)
                 .orElseThrow(()-> new NotFoundException(VocabularyErrorCode.NOT_FOUND));
     }
@@ -115,7 +119,7 @@ public class VocabularyService implements BaseService {
     public List<VocabularyDto> getAllVocabularyinList(UUID idList){
         log.info("Finding all vocabulary from: {}", idList);
 
-       List<Vocabulary> listVoca = vocabularyRepository.findAllbyIdListe(idList);
+       List<Vocabulary> listVoca = vocabularyRepository.findAllByListVocaId(idList);
        
        return listVoca.stream().map(vocabularyConverter::convert).collect(Collectors.toList());
     
@@ -150,10 +154,15 @@ public class VocabularyService implements BaseService {
 
         TypeVocabulary type = TypeVocabulary.getByName(typeString);
 
-       List<Vocabulary> listVoca = vocabularyRepository.findAllbyListeType(idList,type);
+       List<Vocabulary> listVoca = vocabularyRepository.findAllByListVocaIdAndType(idList,type);
        
        return listVoca.stream().map(vocabularyConverter::convert).collect(Collectors.toList());
     
+    }
+
+    private VocabularyList getVocaListOrError(UUID vocaListId) {
+        return vocaListRepository.findById(vocaListId)
+                .orElseThrow(() -> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
     }
 
     

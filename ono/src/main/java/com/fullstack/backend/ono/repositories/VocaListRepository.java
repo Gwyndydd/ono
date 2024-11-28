@@ -12,7 +12,7 @@ import com.fullstack.backend.ono.models.entities.VocabularyList;
 @Repository
 public interface VocaListRepository extends JpaRepository<VocabularyList,UUID> {
 
-    List<VocabularyList> findAllbyOwner(UUID idUser);
-    Optional<VocabularyList> findByOwnerName(UUID idUser,String name);
-    Optional<VocabularyList> findByStudyProgramm(UUID idStudyProgramm);
+    List<VocabularyList> findAllByOwnerId(UUID idUser);
+    Optional<VocabularyList> findByOwnerIdAndName(UUID idUser,String name);
+    Optional<VocabularyList> findByStudyProgramId(UUID idStudyProgram);
 }

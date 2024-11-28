@@ -15,7 +15,7 @@ public class StudyProgrammConverter implements Converter<StudyProgram,StudyProgr
                 .id(studyProgram.getId())
                 .name(studyProgram.getName())
                 .description(studyProgram.getDescription())
-                .idOwner(studyProgram.getIdOwner())
+                .idOwner(studyProgram.getOwner().getId())
                 .prive(studyProgram.getPrive())
                 .build();
     }

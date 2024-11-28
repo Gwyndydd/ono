@@ -8,15 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.backend.ono.exceptions.NotFoundException;
-import com.fullstack.backend.ono.exceptions.errors.VocabularyListErrorCode;
 import com.fullstack.backend.ono.exceptions.errors.StudyProgramErrorCode;
+import com.fullstack.backend.ono.exceptions.errors.UserErrorCode;
+import com.fullstack.backend.ono.exceptions.errors.VocabularyListErrorCode;
 import com.fullstack.backend.ono.models.constants.Langues;
 import com.fullstack.backend.ono.models.converters.VocaListConverter;
 import com.fullstack.backend.ono.models.dtos.VocaListDto;
 import com.fullstack.backend.ono.models.dtos.StudyProgramDto;
 import com.fullstack.backend.ono.models.dtos.UserDto;
-import com.fullstack.backend.ono.models.entities.VocabularyList;
 import com.fullstack.backend.ono.models.entities.StudyProgram;
+import com.fullstack.backend.ono.models.entities.User;
+import com.fullstack.backend.ono.models.entities.VocabularyList;
+import com.fullstack.backend.ono.repositories.StudyProgramRepository;
+import com.fullstack.backend.ono.repositories.UserRepository;
 import com.fullstack.backend.ono.repositories.VocaListRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +33,8 @@ public class VocabularyListService implements BaseService {
 
     private final VocaListRepository listVocaRepository;
     private final VocaListConverter listVocaConverter;
+    private final StudyProgramRepository studyProgrammRepository;
+    private final UserRepository userRepository;
 
     /**
      * 
@@ -43,7 +49,7 @@ public class VocabularyListService implements BaseService {
         Langues langueEtudie = Langues.getByName(gDto.getLangueEtudie());
         Langues langueDef = Langues.getByName(gDto.getLangueDefinition());
 
-        listVocaRepository.findByOwnerName(user.getId(), gDto.getName())
+        listVocaRepository.findByOwnerIdAndName(user.getId(), gDto.getName())
             .ifPresent( list -> {
                 log.info("This list of Vocabulary already exist : {}", list.getName());
                 throw new NotFoundException(VocabularyListErrorCode.ALREADY_EXISTS);
@@ -53,8 +59,8 @@ public class VocabularyListService implements BaseService {
                 .name(gDto.getName())
                 .langueEtudie(langueEtudie)
                 .langueDefinition(langueDef)
-                .idProgrammeEtude(gDto.getIdProgrammeEtude())
-                .idOwner(user.getId())
+                .studyProgram((gDto.getIdProgrammeEtude() == null) ? null : getStudyProgrammOrError(gDto.getIdProgrammeEtude()))
+                .owner(getUserOrError(user.getId()))
                 .prive(gDto.getPrive())
                 .build();
 
@@ -77,7 +83,7 @@ public class VocabularyListService implements BaseService {
                             .orElseThrow(()-> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
                             
         
-        glist.setIdProgrammeEtude(dto.getId());
+        glist.setStudyProgram((dto.getId() == null) ? null :getStudyProgrammOrError(dto.getId()));
 
         return listVocaConverter.convert(listVocaRepository.save(glist));
 
@@ -144,7 +150,7 @@ public class VocabularyListService implements BaseService {
     public VocaListDto getVocabularyListByOwnerName(String name, UserDto user){
         log.info("Retrieving programm by name : {}", name);
 
-        return listVocaRepository.findByOwnerName(user.getId(), name)
+        return listVocaRepository.findByOwnerIdAndName(user.getId(), name)
                 .map(listVocaConverter::convert)
                 .orElseThrow(()-> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
     }
@@ -158,14 +164,22 @@ public class VocabularyListService implements BaseService {
     public List<VocaListDto> getAllVocabularyListByOwner(UserDto userDto){
         log.info("Finding all study program of : {}", userDto.getUsername());
 
-       List<VocabularyList> listG = listVocaRepository.findAllbyOwner(userDto.getId());
+       List<VocabularyList> listG = listVocaRepository.findAllByOwnerId(userDto.getId());
        
        return listG.stream().map(listVocaConverter::convert).collect(Collectors.toList());
     
     }
 
 
+        private User getUserOrError(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(UserErrorCode.NOT_FOUND));
+    }
 
+    private StudyProgram getStudyProgrammOrError(UUID studyProgrammId) {
+        return studyProgrammRepository.findById(studyProgrammId)
+                .orElseThrow(() -> new NotFoundException(StudyProgramErrorCode.NOT_FOUND));
+    }
 
     
 }

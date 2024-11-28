@@ -42,14 +42,14 @@ public class GrammarList extends AuditDateEntity {
     @Enumerated(EnumType.STRING)
     private Langues langueEtudie;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "programme_etude", columnDefinition = "UUID")
-    private UUID idProgrammeEtude;
+    private StudyProgram studyProgram;
     
     //Column pour définir le créateur et le propriétaire de la liste
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "owner_id", nullable = false)
-    private UUID idOwner;
+    @JoinColumn(name = "owner", columnDefinition = "UUID", nullable = false)
+    private User owner;
 
     //Column pour définir la visibilité des listes aux autres users
     @Column(name = "visibility", columnDefinition = "BOOLEAN", nullable = false)

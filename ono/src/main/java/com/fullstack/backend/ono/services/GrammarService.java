@@ -9,9 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.backend.ono.exceptions.NotFoundException;
 import com.fullstack.backend.ono.exceptions.errors.GrammarErrorCode;
+import com.fullstack.backend.ono.exceptions.errors.StudyProgramErrorCode;
 import com.fullstack.backend.ono.models.converters.GrammarConverter;
 import com.fullstack.backend.ono.models.dtos.GrammarDto;
 import com.fullstack.backend.ono.models.entities.Grammar;
+import com.fullstack.backend.ono.models.entities.GrammarList;
+import com.fullstack.backend.ono.repositories.GrammarListRepository;
 import com.fullstack.backend.ono.repositories.GrammarRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,8 @@ public class GrammarService implements BaseService {
     private final GrammarConverter grammarConverter;
     private final GrammarRepository grammarRepository;
 
+    private final GrammarListRepository grammarListRepository;
+
     /**
      * 
      * @param dto
@@ -35,7 +40,7 @@ public class GrammarService implements BaseService {
     public GrammarDto registerGrammar(GrammarDto dto, UUID idList){
         log.info("Registering grammaar : {}", dto.getNotion());
 
-        grammarRepository.findByNotioninList(dto.getNotion(), idList)
+        grammarRepository.findByNotionAndGrammarListId(dto.getNotion(), idList)
         .ifPresent(grammar ->{
                 log.info("This notion already exists : {}", grammar.getNotion());
                 throw new NotFoundException(GrammarErrorCode.ALREADY_EXISTS);
@@ -43,7 +48,7 @@ public class GrammarService implements BaseService {
         
         Grammar sP = Grammar.builder()
             .notion(dto.getNotion())
-            .idGrammar(idList)
+            .grammarList(getGrammarListOrError(idList))
             .build();
         
         return grammarConverter.convert(grammarRepository.save(sP));    
@@ -64,7 +69,7 @@ public class GrammarService implements BaseService {
                             
         
         sp.setNotion(dto.getNotion());
-        sp.setIdListeGrammaire(idGrammar);;
+        sp.setGrammarList(getGrammarListOrError(idGrammar));;
 
         return grammarConverter.convert(grammarRepository.save(sp));
     }
@@ -96,7 +101,7 @@ public class GrammarService implements BaseService {
     public List<GrammarDto> getAllGrammarinList(UUID idList){
         log.info("Finding all grammar from: {}", idList);
 
-       List<Grammar> listGrammar = grammarRepository.findAllByListGrammar(idList);
+       List<Grammar> listGrammar = grammarRepository.findAllByGrammarListId(idList);
        
        return listGrammar.stream().map(grammarConverter::convert).collect(Collectors.toList());
     
@@ -117,6 +122,15 @@ public class GrammarService implements BaseService {
        return grammarConverter.convert(grammar);
     
     }
+
+    private GrammarList getGrammarListOrError(UUID grammarListId) {
+        return grammarListRepository.findById(grammarListId)
+                .orElseThrow(() -> new NotFoundException(StudyProgramErrorCode.NOT_FOUND));
+    }
+
+
+
+    
 
     
 }

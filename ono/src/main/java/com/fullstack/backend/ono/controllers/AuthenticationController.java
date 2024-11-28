@@ -2,9 +2,7 @@ package com.fullstack.backend.ono.controllers;
 
 import com.fullstack.backend.ono.models.dtos.AuthenticationRequest;
 import com.fullstack.backend.ono.models.dtos.AuthenticationResponse;
-import com.fullstack.backend.ono.models.dtos.UserRegistrationDto;
 import com.fullstack.backend.ono.services.AuthenticationService;
-import com.fullstack.backend.ono.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

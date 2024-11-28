@@ -12,7 +12,7 @@ import com.fullstack.backend.ono.models.entities.Grammar;
 @Repository
 public interface GrammarRepository extends JpaRepository<Grammar, UUID>  {
 
-    List<Grammar> findAllByListGrammar(UUID idListGrammar);
-    Optional<Grammar> findByNotioninList(String notion, UUID idListGrammar);
+    List<Grammar> findAllByGrammarListId(UUID idListGrammar);
+    Optional<Grammar> findByNotionAndGrammarListId(String notion, UUID idListGrammar);
     
 }

@@ -9,11 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.backend.ono.exceptions.NotFoundException;
 import com.fullstack.backend.ono.exceptions.errors.StudyProgramErrorCode;
+import com.fullstack.backend.ono.exceptions.errors.UserErrorCode;
 import com.fullstack.backend.ono.models.converters.StudyProgrammConverter;
 import com.fullstack.backend.ono.models.dtos.StudyProgramDto;
 import com.fullstack.backend.ono.models.dtos.UserDto;
 import com.fullstack.backend.ono.models.entities.StudyProgram;
+import com.fullstack.backend.ono.models.entities.User;
 import com.fullstack.backend.ono.repositories.StudyProgramRepository;
+import com.fullstack.backend.ono.repositories.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +28,7 @@ public class StudyProgrammService implements BaseService {
 
     private final StudyProgramRepository studyProgramRepository;
     private final StudyProgrammConverter studyProgramConverter;
+    private final UserRepository userRepository;
 
     /**
      * Transaction pour la création d'un programme d'étude
@@ -35,7 +40,7 @@ public class StudyProgrammService implements BaseService {
     public StudyProgramDto registerStudyProgram(StudyProgramDto dto, UserDto userDto){
         log.info("Registering programm of study : {}", dto.getName());
 
-        studyProgramRepository.findByOwnerName(userDto.getId(), dto.getName())
+        studyProgramRepository.findByOwnerIdAndName(userDto.getId(), dto.getName())
         .ifPresent(studyProg ->{
                 log.info("This programm already exists : {}", studyProg.getName());
                 throw new NotFoundException(StudyProgramErrorCode.ALREADY_EXISTS);
@@ -44,7 +49,7 @@ public class StudyProgrammService implements BaseService {
         StudyProgram sP = StudyProgram.builder()
             .name(dto.getName())
             .description(dto.getDescription())
-            .idOwner(userDto.getId())
+            .owner(getUserOrError(userDto.getId()))
             .prive(dto.isPrive())
             .build();
         
@@ -94,7 +99,7 @@ public class StudyProgrammService implements BaseService {
     public StudyProgramDto getStudyProgramByOwnerName(String name, UserDto user){
         log.info("Retrieving programm by name : {}", name);
 
-        return studyProgramRepository.findByOwnerName(user.getId(), name)
+        return studyProgramRepository.findByOwnerIdAndName(user.getId(), name)
                 .map(studyProgramConverter::convert)
                 .orElseThrow(()-> new NotFoundException(StudyProgramErrorCode.NOT_FOUND));
     }
@@ -108,7 +113,7 @@ public class StudyProgrammService implements BaseService {
     public List<StudyProgramDto> getAllStudyProgramByOwner(UserDto userDto){
         log.info("Finding all study program of : {}", userDto.getUsername());
 
-       List<StudyProgram> listSP = studyProgramRepository.findAllByOwner(userDto.getId());
+       List<StudyProgram> listSP = studyProgramRepository.findAllByOwnerId(userDto.getId());
        
        return listSP.stream().map(studyProgramConverter::convert).collect(Collectors.toList());
     
@@ -130,6 +135,11 @@ public class StudyProgrammService implements BaseService {
 
         return dto;
 
+    }
+
+        private User getUserOrError(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(UserErrorCode.NOT_FOUND));
     }
 
 
