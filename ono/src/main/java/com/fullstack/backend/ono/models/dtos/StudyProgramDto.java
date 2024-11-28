@@ -17,7 +17,9 @@ public class StudyProgramDto {
     private UUID id;
 
     @NotEmpty
-    private String nom;
+    private String name;
+
+    private String description;
 
     @NotEmpty
     private UUID idOwner;

@@ -1,15 +1,19 @@
 package com.fullstack.backend.ono.repositories;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface StudyProgramRepository extends JpaRepository<StudyProgramRepository,UUID> {
+import com.fullstack.backend.ono.models.entities.StudyProgram;
 
-    Optional<StudyProgramRepository> findAllByOwner(UUID idOwner);
-    Optional<StudyProgramRepository> findByOwnerName(UUID idOwner, String name);
+@Repository
+public interface StudyProgramRepository extends JpaRepository<StudyProgram,UUID> {
+
+    List<StudyProgram> findAllByOwner(UUID idOwner);
+    Optional<StudyProgram> findByOwnerName(UUID idOwner, String name);
     
 }

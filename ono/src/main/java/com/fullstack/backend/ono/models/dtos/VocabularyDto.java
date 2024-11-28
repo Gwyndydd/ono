@@ -19,7 +19,7 @@ public class VocabularyDto {
     private UUID idVoca;
 
     @NotEmpty
-    private String mot;
+    private String word;
 
     private String definition;
 
@@ -27,6 +27,6 @@ public class VocabularyDto {
     private UUID idListe;
 
     @NotEmpty
-    private TypeVocabulary type;
+    private String type;
     
 }

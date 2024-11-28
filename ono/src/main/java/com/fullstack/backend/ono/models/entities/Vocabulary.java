@@ -32,8 +32,8 @@ public class Vocabulary extends AuditDateEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID idVoca;
 
-    @Column(name = "mot", columnDefinition = "VARCHAR(255)", nullable = false)
-    private String mot;
+    @Column(name = "word", columnDefinition = "VARCHAR(255)", nullable = false)
+    private String word;
 
     @Column(name = "definition", columnDefinition = "VARCHAR(255)")
     private String definition;

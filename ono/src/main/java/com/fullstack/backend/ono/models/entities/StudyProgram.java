@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "programme_etude")
+@Entity(name = "study_programs")
 @Getter
 @Setter
 @Builder
@@ -30,8 +30,11 @@ public class StudyProgram extends AuditDateEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "nom", columnDefinition = "VARCHAR(255)", nullable = false)
-    private String nom;
+    @Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false)
+    private String name;
+
+    @Column(name = "description", columnDefinition = "VARCHAR(1000)")
+    private String description;
 
     //Column pour définir le créateur et le propriétaire de la liste
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

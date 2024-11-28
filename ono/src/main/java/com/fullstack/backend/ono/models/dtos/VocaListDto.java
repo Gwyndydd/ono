@@ -19,13 +19,13 @@ public class VocaListDto {
     private UUID id;
 
     @NotEmpty
-    private String nom;
+    private String name;
 
     @NotEmpty
-    private Langues langueEtudie;
+    private String langueEtudie;
 
     @NotEmpty
-    private Langues langueDefinition;
+    private String langueDefinition;
 
     private UUID idProgrammeEtude;
 

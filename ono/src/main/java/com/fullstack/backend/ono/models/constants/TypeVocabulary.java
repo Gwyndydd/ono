@@ -3,8 +3,8 @@ package com.fullstack.backend.ono.models.constants;
 import java.util.Arrays;
 
 public enum TypeVocabulary {
-    NOMBRE("Nombre"),
-    NOM("Nom"),
+    NAMEBRE("Namebre"),
+    NAME("Name"),
     ADJECTIF("Adjectif"),
     VERBE("Verbe"),
     PREPOSITION("Preposition"),

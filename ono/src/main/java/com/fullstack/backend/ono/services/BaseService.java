@@ -1,7 +1,6 @@
 package com.fullstack.backend.ono.services;
 
 import com.fullstack.backend.ono.models.auth.CustomPrincipal;
-import com.fullstack.backend.ono.models.entities.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

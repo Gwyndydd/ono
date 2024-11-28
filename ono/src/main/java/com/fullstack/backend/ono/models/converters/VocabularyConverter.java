@@ -14,7 +14,7 @@ public class VocabularyConverter implements Converter<Vocabulary, VocabularyDto>
 
         return VocabularyDto.builder()
                 .idVoca(voca.getIdVoca())
-                .mot(voca.getMot())
+                .word(voca.getWord())
                 .definition(voca.getDefinition())
                 .idListe(voca.getIdListeVoca())
                 .type(voca.getType())
