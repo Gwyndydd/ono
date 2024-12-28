@@ -43,18 +43,22 @@ public class WebSecurityConfiguration implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
                         .requestMatchers(HttpMethod.GET, "/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/h2-console/**").permitAll()
+                        //.requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
+                        //.requestMatchers(HttpMethod.POST, "/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/hello-world/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/hello-world/entity").permitAll()
+                        //.requestMatchers(HttpMethod.POST, "/hello-world/entity").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/movies/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/study-program/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/study-program/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/study-program/public").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/study-program/all").permitAll()
+                        
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(objectMapper, userRepository, jwtManager), AnonymousAuthenticationFilter.class);

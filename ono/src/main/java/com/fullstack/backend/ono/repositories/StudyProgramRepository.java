@@ -18,5 +18,7 @@ public interface StudyProgramRepository extends JpaRepository<StudyProgram,UUID>
 
     //@Query(nativeQuery = true, value = "SELECT * FROM study-programs WHERE name= ?2 owner = ?1")
     Optional<StudyProgram> findByOwnerIdAndName(UUID idOwner, String name);
+
+    List<StudyProgram> findAllByVisibility(boolean visibility);
     
 }

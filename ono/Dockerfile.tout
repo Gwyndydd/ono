@@ -1,0 +1,18 @@
+FROM maven:3-eclipse-temurin-21-alpine as maven
+
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+#Tag mobile qui peut accèder aux mise à jour de java 21
+FROM eclipse-temurin:21-jre-alpine
+
+#Création du repertoire dédiée
+WORKDIR /app
+
+#COPY target/backend-0.0.1-SNAPSHOT.jar .
+COPY --from=maven /app/target/ono-*.jar .
+
+EXPOSE 8080
+
+CMD ["java","-jar","ono-0.0.1-SNAPSHOT.jar"]

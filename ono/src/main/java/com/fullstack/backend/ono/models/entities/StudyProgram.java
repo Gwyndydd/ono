@@ -43,7 +43,7 @@ public class StudyProgram extends AuditDateEntity {
 
     //Column pour définir la visibilité des listes aux autres users
     @Column(name = "visibility", columnDefinition = "BOOLEAN", nullable = false)
-    private Boolean prive;
+    private Boolean visibility;
 
 
     

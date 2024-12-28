@@ -1,0 +1,36 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: var(--gray-dark);
+    width: 100%;
+  
+    .navbar__item-list {
+        list-style-type:none;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex: 1;
+        gap: 1rem;
+    }
+
+    .navbar-item {
+        display: flex;
+        flex-direction: row;
+
+        .navbar-item__icon {
+            margin-right: 1rem;
+        }
+        .navbar-item__label {
+            align-self: center;
+        }
+
+        &.navbar-item--active {
+            border-bottom: 1px var(--gray-light) solid;
+        }
+    }
+
+    .navbar__logout {
+        display: inline-flex;
+    }
+}

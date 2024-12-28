@@ -37,10 +37,10 @@ public class StudyProgrammService implements BaseService {
      * @return StudyProgramDto
      */
     @Transactional
-    public StudyProgramDto registerStudyProgram(StudyProgramDto dto, UserDto userDto){
+    public StudyProgramDto registerStudyProgram(StudyProgramDto dto/*, UserDto userDto*/){
         log.info("Registering programm of study : {}", dto.getName());
 
-        studyProgramRepository.findByOwnerIdAndName(userDto.getId(), dto.getName())
+        studyProgramRepository.findByOwnerIdAndName(dto.getIdOwner(), dto.getName())
         .ifPresent(studyProg ->{
                 log.info("This programm already exists : {}", studyProg.getName());
                 throw new NotFoundException(StudyProgramErrorCode.ALREADY_EXISTS);
@@ -49,8 +49,8 @@ public class StudyProgrammService implements BaseService {
         StudyProgram sP = StudyProgram.builder()
             .name(dto.getName())
             .description(dto.getDescription())
-            .owner(getUserOrError(userDto.getId()))
-            .prive(dto.isPrive())
+            .owner(getUserOrError(dto.getIdOwner()))
+            .visibility(dto.isPrive())
             .build();
         
         return studyProgramConverter.convert(studyProgramRepository.save(sP));    
@@ -96,24 +96,53 @@ public class StudyProgrammService implements BaseService {
      * @return StudyProgramDto
      */
     @Transactional(readOnly = true)
-    public StudyProgramDto getStudyProgramByOwnerName(String name, UserDto user){
+    public StudyProgramDto getStudyProgramByOwnerName(String name, UUID user){
         log.info("Retrieving programm by name : {}", name);
 
-        return studyProgramRepository.findByOwnerIdAndName(user.getId(), name)
+        return studyProgramRepository.findByOwnerIdAndName(user, name)
                 .map(studyProgramConverter::convert)
                 .orElseThrow(()-> new NotFoundException(StudyProgramErrorCode.NOT_FOUND));
     }
     
     /**
      * Transaction pour obtenir la liste des programmes pour un utilisateur
-     * @param userDto
+     * @param UUID idUser
      * @return List<StudyProgramDto>
      */
     @Transactional(readOnly = true)
-    public List<StudyProgramDto> getAllStudyProgramByOwner(UserDto userDto){
-        log.info("Finding all study program of : {}", userDto.getUsername());
+    public List<StudyProgramDto> getAllStudyProgramByOwner(UUID id){
+        log.info("Finding all study program of : {}",id);
 
-       List<StudyProgram> listSP = studyProgramRepository.findAllByOwnerId(userDto.getId());
+       List<StudyProgram> listSP = studyProgramRepository.findAllByOwnerId(id);
+       
+       return listSP.stream().map(studyProgramConverter::convert).collect(Collectors.toList());
+    
+    }
+
+    /**
+     * 
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<StudyProgramDto> getAllStudyProgram(){
+        log.info("Finding all study program");
+
+       List<StudyProgram> listSP = studyProgramRepository.findAll();
+       
+       return listSP.stream().map(studyProgramConverter::convert).collect(Collectors.toList());
+    
+    }
+
+    /**
+     * 
+     * @param visibility
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<StudyProgramDto> getAllStudyProgramByVisibility(boolean visibility){
+        log.info("Finding all study program with visibility of : {}", visibility);
+
+       List<StudyProgram> listSP = studyProgramRepository.findAllByVisibility(visibility);
        
        return listSP.stream().map(studyProgramConverter::convert).collect(Collectors.toList());
     

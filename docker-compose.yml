@@ -1,0 +1,57 @@
+###DOCKER COMPOSE DE L'ENSEMBLE DE L'APP
+
+networks:
+  #conf par défaut
+  ono_project :
+volumes:
+  #conf par défaut
+  ono-database:
+
+services:
+  fullstack-project-ono-db:
+    container_name: ono-database
+    image: postgres:16.4
+    volumes:
+      - ono-database:/var/lib/postgresql/ono-database:rw
+    environment:
+      POSTGRES_DB: onodb
+      POSTGRES_USER: Gwen
+      POSTGRES_PASSWORD: password
+    networks:
+      - ono_project
+    healthcheck:
+      test: pg_isready -U Gwen -d onodb
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  fullstack-project-ono-server:
+    container_name: ono_server
+    depends_on:
+      - fullstack-project-ono-db
+    image: server
+    build:
+      context: ono
+      dockerfile: Dockerfile.tout
+    networks :
+      - ono_project
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ono-database:5432/onodb
+      SPRING_DATASOURCE_USER: Gwen
+      SPRING_DATASOURCE_PASSWORD: password
+
+  
+  fullstack-project-ono-frontend:
+    container_name: frontend
+    image: frontend
+    build:
+      context: front_ono
+      dockerfile: Dockerfile
+    environment:
+      BACKEND_URL : http://localhost:8080
+    ports:
+      - 3000:80
+
+    

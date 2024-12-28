@@ -28,6 +28,7 @@ public class AuthenticationService  {
         return userRepository.findByEmail(dto.getEmail())
                 .filter(user -> encoder.matches(dto.getPassword(), user.getPassword()))
                 .map(user -> AuthenticationResponse.builder()
+                        .id(user.getId())
                         .email(user.getEmail())
                         .token(jwtManager.generateToken(user))
                         .expiresIn(jwtManager.getExpirationTime())

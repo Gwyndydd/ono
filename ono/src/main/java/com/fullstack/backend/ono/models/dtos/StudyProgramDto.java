@@ -21,7 +21,6 @@ public class StudyProgramDto {
 
     private String description;
 
-    @NotEmpty
     private UUID idOwner;
 
     private boolean prive;

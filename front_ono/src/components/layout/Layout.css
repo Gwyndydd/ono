@@ -1,0 +1,21 @@
+.layout {
+    width: 100dvw;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  
+    overflow: hidden;
+  
+    .navbar {
+      flex-wrap: wrap;
+      position: sticky;
+      /* height: 4rem; */
+    }
+    .page-main {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+      overflow: scroll;
+      padding: 1rem;
+    }
+}
