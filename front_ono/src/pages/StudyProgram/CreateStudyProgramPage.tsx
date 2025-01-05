@@ -88,6 +88,7 @@ const CreateStudyProgramPage: React.FunctionComponent = () => {
                     
                     <Button type="submit" isDisabled={isLoading}>Envoyer</Button>
                 </Form>
+                
         </div>
     )
 };

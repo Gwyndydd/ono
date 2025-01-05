@@ -37,7 +37,7 @@ export const studyProgramApi = baseApi.injectEndpoints({
         /**
          * Endpoint pour mettre à jour un programme d'étude
          */
-        updateStudyProgram: builder.mutation<StudyProgramDto, { studyProgramId: string, dto: StudyProgramDto }>({
+        updateStudyProgram: builder.mutation<StudyProgramDto, { studyProgramId: string, dto: CreateStudyProgramDto }>({
             query: ({ studyProgramId, dto }) => ({
                 method: 'PUT',
                 url: `/study-program/update/${studyProgramId}`,

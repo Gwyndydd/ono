@@ -12,6 +12,7 @@ import UserVocabularyListPage from "../pages/VocabularyList/UserVocabularyListPa
 import CreateVocabularyListPage from "../pages/VocabularyList/CreateVocabularyListPage";
 import VocabularyPage from "../pages/Listes/VocabularyPage";
 import CreateVocabularyPage from "../pages/Listes/CreateVocabularyPage";
+import AddUpdateStudyProgramPage from "../pages/StudyProgram/AddUpdateStudyProgrammPage";
 
 const router = createBrowserRouter([
     {
@@ -77,6 +78,11 @@ const router = createBrowserRouter([
                   id: "modification_voca",
                   path: "/modification-vocabulary",
                   element: <CreateVocabularyPage />,
+                },
+                {
+                  id:"add_update",
+                  path: "/update-study-program",
+                  element: <AddUpdateStudyProgramPage/>
                 },
               ]
             },

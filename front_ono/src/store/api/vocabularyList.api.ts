@@ -68,6 +68,17 @@ export const vocabularyListApi = baseApi.injectEndpoints({
         }),
 
         /**
+         * ADD studyProgramm
+         */
+        addSPtoVocabularyList: builder.mutation<VocabularyListDto,{vocabularyListId: string, studyProgramId: string}>({
+            query: ({vocabularyListId, studyProgramId}) =>({
+                method: 'PUT',
+                url: `/vocabulary-list/add-study-program/`,
+                params: {vocabularyListId, studyProgramId}
+            }),
+        }),
+
+        /**
          * Endpoint pour obtenir tous les listes de vocabulaire
          */
         getAllVocabularyLists: builder.query<VocabularyListDto[], void>({
@@ -99,4 +110,5 @@ export const {
     useRegisterVocabularyListMutation,
     useGetAllVocabularyListsQuery,
     useGetVocabularyListsPublicQuery,
+    useAddSPtoVocabularyListMutation
 } = vocabularyListApi;
