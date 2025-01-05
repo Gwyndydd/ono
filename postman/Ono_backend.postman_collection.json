@@ -1,0 +1,1257 @@
+{
+	"info": {
+		"_postman_id": "feddcd65-1358-40f8-b31c-eb9344847029",
+		"name": "Ono_backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39507073"
+	},
+	"item": [
+		{
+			"name": "hello-world",
+			"item": [
+				{
+					"name": "hello",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "hello_name",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"description": "Test pour l'url hello-world. Cette url test si la connection est bien effectuer avec le serveur.\n\n**Tests OK**"
+		},
+		{
+			"name": "study_program",
+			"item": [
+				{
+					"name": "create a study program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"test\",\r\n    \"description\" : \"\",\r\n    \"prive\" : \"\"\r\n\r\n}\r\n{\r\n    \"id\" : \"e524f93a-7bf4-46f2-933f-55b032605858\",\r\n    \"username\" : \"gwen\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendURL}}/study-program/register",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"study-program",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getpublic",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/study-program/public",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"study-program",
+								"public"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getpublic",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backendURL}}/study-program/public",
+									"host": [
+										"{{backendURL}}"
+									],
+									"path": [
+										"study-program",
+										"public"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 31 Dec 2024 09:53:46 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"622247a9-0185-4ff6-a6d5-c0bd2a9e9cf0\",\n        \"name\": \"test_front\",\n        \"description\": \"test\",\n        \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\n        \"prive\": false\n    },\n    {\n        \"id\": \"4c4dc30c-a30c-4367-af6e-f26f95f1f4d1\",\n        \"name\": \"test3\",\n        \"description\": \"test 3\",\n        \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\n        \"prive\": false\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "getALL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/study-program/all",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"study-program",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getALL studyprogramm for user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/study-program/user/?idUser=2fa4abfc-717c-4158-80c2-cd10ebd2f5b5",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"study-program",
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "2fa4abfc-717c-4158-80c2-cd10ebd2f5b5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/study-program/id/4c4dc30c-a30c-4367-af6e-f26f95f1f4d1",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"study-program",
+								"id",
+								"4c4dc30c-a30c-4367-af6e-f26f95f1f4d1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTU1NTE4NSwiZXhwIjoxNzM1NTU4Nzg1fQ.xLlZ9vladYRd9vExpKeT3ozQwvJeq5qr4tZQErzsUvrGkuYSqyRFcrXHUJSeZW7S0SLJjbBMlUWDSF1vkrmPwA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/study-program/delete/4fa4ce9c-ab36-474b-8a03-94a212a0429c",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"study-program",
+								"delete",
+								"4fa4ce9c-ab36-474b-8a03-94a212a0429c"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Study-programm est l'url pour gérér les programmes des utilisateurs\n\n**Seulement la requête pour getPublic est disponible pour tous, les autres requêtes nécessitent une authentification : un bearer token est nécessaire.**"
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"gwen\",\r\n    \"email\" : \"gwen.dud@gmail.com\",\r\n    \"password\" : \"gwen\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendURL}}/user/register",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "url pour créer un utilisateur\n\n**Test post ok**"
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "authentification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \r\n    \"email\" : \"gwen.dud@gmail.com\",\r\n    \"password\" : \"gwen\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendURL}}/auth/login",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "VocabularyList",
+			"item": [
+				{
+					"name": "create Vocabulary List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTYzOTYzOCwiZXhwIjoxNzM1NjQzMjM4fQ.hJZ1GJdZ4Y2MJcOeHazrApXF-nAgRn0mW-IcDOVurBPonU8tJboow2cALuF90xV6PbBu1OW-kHB8fqKLgKEQHg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test_register\",\r\n    \"langueEtudie\": \"Coreen\",\r\n    \"langueDefinition\" : \"Francais\",\r\n    \"idOwner\":\"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\r\n    \"prive\": \"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendURL}}/vocabulary-list/register",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary-list",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create Vocabulary List",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"test4\",\r\n    \"langueEtudie\": \"Coreen\",\r\n    \"langueDefinition\" : \"Francais\",\r\n    \"idOwner\":\"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\r\n    \"prive\": \"false\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backendURL}}/vocabulary-list/register",
+									"host": [
+										"{{backendURL}}"
+									],
+									"path": [
+										"vocabulary-list",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 30 Dec 2024 20:59:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935\",\n    \"name\": \"test3\",\n    \"langueEtudie\": \"COREEN\",\n    \"langueDefinition\": \"UNKNOW\",\n    \"idProgrammeEtude\": null,\n    \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\n    \"prive\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "get public",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary-list/public",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary-list",
+								"public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTYzNTYzOCwiZXhwIjoxNzM1NjM5MjM4fQ.z1wmF8wrdO_2OLwLoykWDJxgu3IA2-QxzA29Njk6Ql_kGT86ffnk9UxdXgsKRDbtRO_c1yPYHqWDVBzofiwbmA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary-list/id/e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary-list",
+								"id",
+								"e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backendURL}}/vocabulary-list/id/e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935",
+									"host": [
+										"{{backendURL}}"
+									],
+									"path": [
+										"vocabulary-list",
+										"id",
+										"e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 31 Dec 2024 09:24:52 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935\",\n    \"name\": \"test3\",\n    \"langueEtudie\": \"COREEN\",\n    \"langueDefinition\": \"UNKNOW\",\n    \"idProgrammeEtude\": null,\n    \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\n    \"prive\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "get by User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTYzNTYzOCwiZXhwIjoxNzM1NjM5MjM4fQ.z1wmF8wrdO_2OLwLoykWDJxgu3IA2-QxzA29Njk6Ql_kGT86ffnk9UxdXgsKRDbtRO_c1yPYHqWDVBzofiwbmA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary-list/user/?idUser=2fa4abfc-717c-4158-80c2-cd10ebd2f5b5",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary-list",
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "2fa4abfc-717c-4158-80c2-cd10ebd2f5b5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search by name and id User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTYzNTYzOCwiZXhwIjoxNzM1NjM5MjM4fQ.z1wmF8wrdO_2OLwLoykWDJxgu3IA2-QxzA29Njk6Ql_kGT86ffnk9UxdXgsKRDbtRO_c1yPYHqWDVBzofiwbmA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary-list/search?name=test4&idUser=2fa4abfc-717c-4158-80c2-cd10ebd2f5b5",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary-list",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "test4"
+								},
+								{
+									"key": "idUser",
+									"value": "2fa4abfc-717c-4158-80c2-cd10ebd2f5b5"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "search by name and id User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backendURL}}/vocabulary-list/search?name=test4&idUser=2fa4abfc-717c-4158-80c2-cd10ebd2f5b5",
+									"host": [
+										"{{backendURL}}"
+									],
+									"path": [
+										"vocabulary-list",
+										"search"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "test4"
+										},
+										{
+											"key": "idUser",
+											"value": "2fa4abfc-717c-4158-80c2-cd10ebd2f5b5"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 31 Dec 2024 09:52:21 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"1559481f-b4f0-48b5-984f-8e8e15a3fb95\",\n    \"name\": \"test4\",\n    \"langueEtudie\": \"COREEN\",\n    \"langueDefinition\": \"FRANCAIS\",\n    \"idProgrammeEtude\": null,\n    \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\n    \"prive\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTYzOTYzOCwiZXhwIjoxNzM1NjQzMjM4fQ.hJZ1GJdZ4Y2MJcOeHazrApXF-nAgRn0mW-IcDOVurBPonU8tJboow2cALuF90xV6PbBu1OW-kHB8fqKLgKEQHg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"test_\",\r\n        \"langueEtudie\": \"Coreen\",\r\n        \"langueDefinition\": \"Francais\",\r\n        \"idProgrammeEtude\": null,\r\n        \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\r\n        \"prive\": true\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendURL}}/vocabulary-list/update/78a5e41a-62a7-483a-b11c-5d9c35d298b3",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary-list",
+								"update",
+								"78a5e41a-62a7-483a-b11c-5d9c35d298b3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update_avec_nom_deja_existant",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"test1\",\r\n        \"langueEtudie\": \"Coreen\",\r\n        \"langueDefinition\": \"Francais\",\r\n        \"idProgrammeEtude\": null,\r\n        \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\r\n        \"prive\": true\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backendURL}}/vocabulary-list/update/78a5e41a-62a7-483a-b11c-5d9c35d298b3",
+									"host": [
+										"{{backendURL}}"
+									],
+									"path": [
+										"vocabulary-list",
+										"update",
+										"78a5e41a-62a7-483a-b11c-5d9c35d298b3"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 31 Dec 2024 10:34:46 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"VLIST_002\",\n    \"description\": \"List of vocabulary already exists\",\n    \"timestamp\": \"2024-12-31T11:34:46.5858509+01:00\"\n}"
+						},
+						{
+							"name": "update_OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"test_\",\r\n        \"langueEtudie\": \"Coreen\",\r\n        \"langueDefinition\": \"Francais\",\r\n        \"idProgrammeEtude\": null,\r\n        \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\r\n        \"prive\": true\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backendURL}}/vocabulary-list/update/78a5e41a-62a7-483a-b11c-5d9c35d298b3",
+									"host": [
+										"{{backendURL}}"
+									],
+									"path": [
+										"vocabulary-list",
+										"update",
+										"78a5e41a-62a7-483a-b11c-5d9c35d298b3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 31 Dec 2024 10:51:58 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"78a5e41a-62a7-483a-b11c-5d9c35d298b3\",\n    \"name\": \"test_\",\n    \"langueEtudie\": \"COREEN\",\n    \"langueDefinition\": \"FRANCAIS\",\n    \"idProgrammeEtude\": null,\n    \"idOwner\": \"2fa4abfc-717c-4158-80c2-cd10ebd2f5b5\",\n    \"prive\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Add studyProgram",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTY0Mzk5MSwiZXhwIjoxNzM1NjQ3NTkxfQ.tdfvlEliK7RE116G-NxUibrbKKazWzQ-6J9cmrYFpidQexEWXrEal4nOyUdG6bdTF3z3hDO1sl5JG8kzlveB9g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary-list/add-study-program/?vocaListId=d4746502-b3e5-4d2d-af10-3d9a9f435e46&studyProgramId=622247a9-0185-4ff6-a6d5-c0bd2a9e9cf0",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary-list",
+								"add-study-program",
+								""
+							],
+							"query": [
+								{
+									"key": "vocaListId",
+									"value": "d4746502-b3e5-4d2d-af10-3d9a9f435e46"
+								},
+								{
+									"key": "studyProgramId",
+									"value": "622247a9-0185-4ff6-a6d5-c0bd2a9e9cf0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete VocabularyList",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTc1ODY2MCwiZXhwIjoxNzM1NzYyMjYwfQ.es0UZrh9OhuOnv1KI8GRkymsG9FdH_TgdKm8Sguv0shhBm7-k2nj92kyTIVMv8rFWxlMpgp1SH5NptX3WKKkTg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary-list/delete/?vocaListId=14232f2c-a175-4eba-9029-3636c6ed753e",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary-list",
+								"delete",
+								""
+							],
+							"query": [
+								{
+									"key": "vocaListId",
+									"value": "14232f2c-a175-4eba-9029-3636c6ed753e"
+								},
+								{
+									"key": "UserId",
+									"value": "2fa4abfc-717c-4158-80c2-cd10ebd2f5b5",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vocabulary",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTc0MzQwMSwiZXhwIjoxNzM1NzQ3MDAxfQ.IXG1er46OlNpQM-OAEq-CzZ1jk2tTEdFKOcSm5TewR9037BOzPx8ejPchNhXJDULJqLDcO3sP_oAwHKJ6tktfw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"word\":\"test\",\r\n    \"definition\": \"Coreen\",\r\n    \"type\" : \"Francais\",\r\n    \"idListe\": \"e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendURL}}/vocabulary/register",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary",
+								"register"
+							],
+							"query": [
+								{
+									"key": "idVocalist",
+									"value": "e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTc0MzQwMSwiZXhwIjoxNzM1NzQ3MDAxfQ.IXG1er46OlNpQM-OAEq-CzZ1jk2tTEdFKOcSm5TewR9037BOzPx8ejPchNhXJDULJqLDcO3sP_oAwHKJ6tktfw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"word\":\"test\",\r\n    \"definition\": \"Coreen\",\r\n    \"type\" : \"Name\",\r\n    \"idListe\": \"e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendURL}}/vocabulary/update/119f2538-d07e-4dff-b5f9-f4ae81a56177",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary",
+								"update",
+								"119f2538-d07e-4dff-b5f9-f4ae81a56177"
+							],
+							"query": [
+								{
+									"key": "idVocalist",
+									"value": "e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTczNjQyMCwiZXhwIjoxNzM1NzQwMDIwfQ.YAa24SCZkd3hLQVLkwAmk-m9byHq6erlGh61G4wEbbLYsJRUxGSJ9Tnc-M7zUGmqkAZIBeaqR-02E1kD1SXlfA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary/id/607783f5-cf09-4d16-80c9-539d31320045",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary",
+								"id",
+								"607783f5-cf09-4d16-80c9-539d31320045"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllByList",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTc0MzQwMSwiZXhwIjoxNzM1NzQ3MDAxfQ.IXG1er46OlNpQM-OAEq-CzZ1jk2tTEdFKOcSm5TewR9037BOzPx8ejPchNhXJDULJqLDcO3sP_oAwHKJ6tktfw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary/vocabulary-list/?idVocaList=e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary",
+								"vocabulary-list",
+								""
+							],
+							"query": [
+								{
+									"key": "idVocaList",
+									"value": "e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllByListAndType",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTc0MzQwMSwiZXhwIjoxNzM1NzQ3MDAxfQ.IXG1er46OlNpQM-OAEq-CzZ1jk2tTEdFKOcSm5TewR9037BOzPx8ejPchNhXJDULJqLDcO3sP_oAwHKJ6tktfw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary/vocabulary-list/?idVocaList=e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary",
+								"vocabulary-list",
+								""
+							],
+							"query": [
+								{
+									"key": "idVocaList",
+									"value": "e2ed5c86-19c1-4f1e-a3e6-6f10edc4e935"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{backendURL}}/vocabulary/delete/?vocaId=607783f5-cf09-4d16-80c9-539d31320045",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJnd2VuLmR1ZEBnbWFpbC5jb20iLCJpc3MiOiJiYWNrZW5kLW9ubyIsImlhdCI6MTczNTc0MzQwMSwiZXhwIjoxNzM1NzQ3MDAxfQ.IXG1er46OlNpQM-OAEq-CzZ1jk2tTEdFKOcSm5TewR9037BOzPx8ejPchNhXJDULJqLDcO3sP_oAwHKJ6tktfw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{backendURL}}/vocabulary/delete/?vocaId=607783f5-cf09-4d16-80c9-539d31320045",
+							"host": [
+								"{{backendURL}}"
+							],
+							"path": [
+								"vocabulary",
+								"delete",
+								""
+							],
+							"query": [
+								{
+									"key": "vocaId",
+									"value": "607783f5-cf09-4d16-80c9-539d31320045"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
