@@ -7,6 +7,8 @@ import { exceptionListener } from "./middlewares/error.middleware";
 import { authenticationApi } from "./api/authentication.api";
 import toastSlice from "./slices/toast.slice";
 import studyProgramSlice from "./slices/study-program.slice";
+import vocabularyListSlice from "./slices/vocabulary-list.slice";
+import vocabularySlice from "./slices/vocabulary.slice";
 
 const reduxStore = configureStore({
   reducer: {
@@ -18,6 +20,8 @@ const reduxStore = configureStore({
     [authenticationSlice.reducerPath]: authenticationSlice.reducer,
     [toastSlice.reducerPath]: toastSlice.reducer,
     [studyProgramSlice.reducerPath] : studyProgramSlice.reducer,
+    [vocabularyListSlice.reducerPath] : vocabularyListSlice.reducer,
+    [vocabularySlice.reducerPath] : vocabularySlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

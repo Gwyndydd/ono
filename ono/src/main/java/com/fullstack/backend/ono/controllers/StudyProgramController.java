@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fullstack.backend.ono.models.dtos.StudyProgramDto;
-import com.fullstack.backend.ono.models.dtos.UserDto;
 import com.fullstack.backend.ono.services.StudyProgrammService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -122,7 +121,7 @@ public class StudyProgramController {
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     @DeleteMapping(path = "/delete/{studyProgramId}")
-    public ResponseEntity<StudyProgramDto> updateStudyProgram(
+    public ResponseEntity<StudyProgramDto> deleteStudyProgram(
             @PathVariable @Valid UUID studyProgramId
             ) {
         return ResponseEntity.ok(studyProgrammService.deleteStudyProgram(studyProgramId));

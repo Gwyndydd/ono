@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public enum VocabularyListErrorCode implements ErrorCode {
     
+    OTHER_OWNER("VLIST_003", "List of vocabulary have an owner"),
     ALREADY_EXISTS("VLIST_002", "List of vocabulary already exists"),
     NOT_FOUND("VLIST_001", "List of vocabulary not found");
 

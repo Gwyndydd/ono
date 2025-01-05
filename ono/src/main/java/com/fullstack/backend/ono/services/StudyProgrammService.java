@@ -2,6 +2,7 @@ package com.fullstack.backend.ono.services;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -103,6 +104,21 @@ public class StudyProgrammService implements BaseService {
                 .map(studyProgramConverter::convert)
                 .orElseThrow(()-> new NotFoundException(StudyProgramErrorCode.NOT_FOUND));
     }
+
+        /**
+     * Transaction pour obtenir un programme d'etude
+     * @param id
+     * @return StudyProgramDto
+     */
+    @Transactional(readOnly = true)
+    public List<StudyProgramDto> searchStudyProgram(String search, UUID user){
+        log.info("Retrieving list of programm containing search : {}", search);
+
+        return studyProgramRepository.searchByVocaAndUserNameWithVisibility(search, user)
+                .stream()
+                .map(studyProgramConverter::convert)
+                .collect(Collectors.toList());
+    }
     
     /**
      * Transaction pour obtenir la liste des programmes pour un utilisateur
@@ -142,7 +158,7 @@ public class StudyProgrammService implements BaseService {
     public List<StudyProgramDto> getAllStudyProgramByVisibility(boolean visibility){
         log.info("Finding all study program with visibility of : {}", visibility);
 
-       List<StudyProgram> listSP = studyProgramRepository.findAllByVisibility(visibility);
+       List<StudyProgram> listSP = studyProgramRepository.findAllByVisibilityOrderByUpdatedAtDesc(visibility);
        
        return listSP.stream().map(studyProgramConverter::convert).collect(Collectors.toList());
     
@@ -163,10 +179,16 @@ public class StudyProgrammService implements BaseService {
         studyProgramRepository.deleteById(id);
 
         return dto;
-
     }
 
-        private User getUserOrError(UUID userId) {
+    public List<StudyProgramDto> search(String search, UUID idUser){
+        log.info("Search programm by ", search);
+
+        List<StudyProgram> studyPrograms = studyProgramRepository.searchByVocaAndUserNameWithVisibility(search, idUser);
+        return studyPrograms.stream().map(studyProgramConverter::convert).collect(Collectors.toList());
+    }
+
+    private User getUserOrError(UUID userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(UserErrorCode.NOT_FOUND));
     }

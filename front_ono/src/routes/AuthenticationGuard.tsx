@@ -8,7 +8,7 @@ const AuthenticationGuard: FunctionComponent = () => {
     
     const isAuthenticated = useMemo(() => authState.isAuthenticated && !!authState.token, [authState])
 
-    return (isAuthenticated ? <Outlet/> : <Navigate to={"/"}/>);
+    return (isAuthenticated ? <Outlet/> : <Navigate to={"/login"}/>);
 }
 
 export default AuthenticationGuard;

@@ -8,6 +8,10 @@ import RegisterPage from "../pages/register/RegisterPage";
 import AuthenticationGuard from "./AuthenticationGuard";
 import UserStudyProgramsPage from "../pages/StudyProgram/UserStudyProgramsPage";
 import CreateStudyProgramPage from "../pages/StudyProgram/CreateStudyProgramPage";
+import UserVocabularyListPage from "../pages/VocabularyList/UserVocabularyListPage";
+import CreateVocabularyListPage from "../pages/VocabularyList/CreateVocabularyListPage";
+import VocabularyPage from "../pages/Listes/VocabularyPage";
+import CreateVocabularyPage from "../pages/Listes/CreateVocabularyPage";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +33,7 @@ const router = createBrowserRouter([
               path: "/register",
               element: <RegisterPage />,
             },
+
           ]
         },
         {
@@ -40,24 +45,39 @@ const router = createBrowserRouter([
               element: <HomePage />,
             },
             {
-              id: "study_program",
-              path: "/study_program",
-              element: <UserStudyProgramsPage />,
-            },
-            {
-              id: "cr_sp",
-              path: "/create-studyprogram",
-              element: <CreateStudyProgramPage />,
+              id: "vocabulary",
+              path: "/vocabulary",
+              element: <VocabularyPage />,
             },
             {
               element: <AuthenticationGuard/>, 
               //Page non accessible sans authentification => redirect vers l'authentification
               children: [
-                /*{
-                  id: "study-program",
-                  path: "/study-program",
-                  element: <StudyProgramPage />,
-                }*/
+                {
+                  id: "study_program",
+                  path: "/study_program",
+                  element: <UserStudyProgramsPage />,
+                },
+                {
+                  id: "cr_sp",
+                  path: "/create-studyprogram",
+                  element: <CreateStudyProgramPage />,
+                },
+                {
+                  id: "vocabulary_list",
+                  path: "/vocabulary-list",
+                  element: <UserVocabularyListPage />,
+                },
+                {
+                  id: "cr_vl",
+                  path: "/create-vocabulary-list",
+                  element: <CreateVocabularyListPage />,
+                },
+                {
+                  id: "modification_voca",
+                  path: "/modification-vocabulary",
+                  element: <CreateVocabularyPage />,
+                },
               ]
             },
           ],

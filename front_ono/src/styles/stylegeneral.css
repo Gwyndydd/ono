@@ -1,4 +1,4 @@
-.study-programs-list {
+.users-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 10px;
@@ -6,12 +6,12 @@
     padding-top: 10px;
 
     /* Limitez la hauteur de la liste des cartes */
-    max-height: 300px; /* Ajustez cette valeur selon vos besoins */
+    max-height: 400px; /* Ajustez cette valeur selon vos besoins */
     overflow-y: auto;  /* Ajoutez un défilement vertical si le contenu dépasse la hauteur */
     padding-right: 10px; /* Ajoutez un peu d'espace pour le défilement */
 }
 
-.study-program-card {
+.users-card {
     background-color: #fff;
     border: 1px solid #007bff;
     border-radius: 8px;
@@ -20,17 +20,17 @@
     transition: transform 0.2s ease-in-out;
 }
 
-.study-program-card:hover {
+.users-card:hover {
     transform: translateY(-5px);
 }
 
-.program-title {
+.card-title {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.program-description {
+.card-description {
     font-size: 0.8rem;
     color: #555;
     margin-bottom: 20px;

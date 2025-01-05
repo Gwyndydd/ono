@@ -21,5 +21,6 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary,UUID> {
 
     List<Vocabulary> findAllByListVocaIdAndType(UUID idListe, TypeVocabulary type);
     
-    
+    Long deleteAllByListVocaId(UUID idVocaList);
+
 }

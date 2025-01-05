@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.fullstack.backend.ono.models.entities.GrammarList;
@@ -21,5 +20,9 @@ public interface GrammarListRepository extends JpaRepository<GrammarList,UUID>{
 
     //@Query(nativeQuery = true, value = "SELECT * FROM liste_grammaire WHERE programme_etude = ?1")
     Optional<GrammarList> findByStudyProgramId(UUID idStudyProgramm);
+
+    List<GrammarList> findAllByVisibility(boolean visibility);
+
+    List<GrammarList> findAllByVisibilityOrderByUpdatedAtDesc(boolean visibility);
     
 }

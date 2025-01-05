@@ -82,7 +82,7 @@ const CreateStudyProgramPage: React.FunctionComponent = () => {
                     <Switch isSelected={selected} onChange={setSelected}>
                         <div className="indicator"/>
                        Visibilité du programme
-                       <Input type="checkbox" {...register("prive")}/>
+                       <Input  className="hidden-input" type="checkbox" {...register("prive")}/>
                     </Switch>
                     <p>{selected ? 'public' : 'privé'}</p>
                     

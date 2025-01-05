@@ -7,6 +7,8 @@ import { useGetStudyProgramsPublicQuery } from "../../store/api/studyprogram.api
 
 import "./HomePage.css";
 import "../../styles/stylegeneral.css"
+import { useGetVocabularyListsPublicQuery } from "../../store/api/vocabularyList.api";
+import { setVocabularyLists } from "../../store/slices/vocabulary-list.slice";
 
 /**
  * Home page => acceuil 
@@ -21,15 +23,23 @@ import "../../styles/stylegeneral.css"
 const HomePage: FunctionComponent = () => {
 
     const dispatch = useDispatch();
-    const { data, isLoading, error } = useGetStudyProgramsPublicQuery(); // Récupère les programmes publics depuis l'API
-    const studyPrograms = useSelector((state: RootState) => state.studyProgram.studyPrograms); // Sélectionne les programmes depuis le store
+
+    const { data: studyProgramsData, isLoading: isLoadingPrograms, error: errorPrograms } = useGetStudyProgramsPublicQuery();
+    const { data: vocabularyListsData, isLoading: isLoadingVocabulary, error: errorVocabulary } = useGetVocabularyListsPublicQuery();
+
+    const studyPrograms = useSelector((state: RootState) => state.studyProgram.studyPrograms);
+    const vocabularyLists = useSelector((state: RootState) => state.vocabularyList.vocabularyLists);
+
 
     // Utilisation de useEffect pour stocker les programmes récupérés dans le store
     useEffect(() => {
-        if (data) {
-            dispatch(setStudyPrograms(data)); // Sauvegarde les programmes dans le store
+        if (studyProgramsData) {
+          dispatch(setStudyPrograms(studyProgramsData));
         }
-    }, [data, dispatch]); // Le dispatch est exécuté à chaque fois que `data` change
+        if (vocabularyListsData) {
+          dispatch(setVocabularyLists(vocabularyListsData));
+        }
+      }, [studyProgramsData, vocabularyListsData, dispatch]); // Le dispatch est exécuté à chaque fois que `data` change
 
     // Affiche un message de chargement si les données sont en cours de récupération
     //if (isLoading) return <div>Loading...</div>;
@@ -51,20 +61,22 @@ const HomePage: FunctionComponent = () => {
     return (
         <div className="home-page">
             <h1>Bienvenue sur ONO</h1>
-            <div className="liste-study-programm">
-
-                {error ? (
+            <div className="listes">
+            <div>
+            <h2 className="title-liste">Programme d'étude</h2>
+                <div className="liste-elements">
+                {errorPrograms ? (
                     <div>Une erreur s'est produite. Veuillez réessayer.</div>
                 ) : (
                     <>
-                        {isLoading ? (<div>Chargement des programmes...</div>
+                        {isLoadingPrograms ? (<div>Chargement des programmes...</div>
                         ):(
-                            <div className="study-programs-list">
+                            <div className="card-list">
                             {studyPrograms && studyPrograms.length > 0 ? (
                                 studyPrograms.map((program) => (
-                                <div className="study-program-card" key={program.id}>
-                                    <h2 className="program-title">{program.name}</h2>
-                                    <p className="program-description">{program.description}</p>
+                                <div className="card" key={program.id}>
+                                    <h3 className="card-title">{program.name}</h3>
+                                    <p className="card-description">{program.description}</p>
                                 </div>
                                 ))
                             ) : (
@@ -73,9 +85,43 @@ const HomePage: FunctionComponent = () => {
                         </div>
                         )}
                     </>
-                
+
                 )}
+                </div>
             </div>
+            
+            <div>
+                <h2 className="title-liste">Liste de vocabulaire</h2>
+                <div className="liste-elements">
+                    
+                    {errorVocabulary ? (
+                        <div>Une erreur s'est produite. Veuillez réessayer.</div>
+                    ) : (
+                        <>
+                            {isLoadingVocabulary ? (<div>Chargement des listes de vocabulaire...</div>
+                            ):(
+                                <div className="card-list">
+                                {vocabularyLists && vocabularyLists.length > 0 ? (
+                                    vocabularyLists.map((vocaList) => (
+                                    <div className="card" key={vocaList.id}>
+                                        <h3 className="card-title">{vocaList.name}</h3>
+                                        <p className="card-description">Langue etudié : {vocaList.langeEtudie}</p>
+                                        <p className="card-description">Langue de définition : {vocaList.langueDefinition}</p>
+                                    </div>
+                                    ))
+                                ) : (
+                                    <div>Aucune liste de vocabulaire n'est disponible pour le moment</div>
+                                )}
+                            </div>
+                            )}
+                        </>
+
+                    )}
+                </div>
+            </div>
+                
+            </div>
+            
 
         </div>
     );

@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.backend.ono.exceptions.NotFoundException;
 import com.fullstack.backend.ono.exceptions.errors.VocabularyErrorCode;
-import com.fullstack.backend.ono.exceptions.errors.VocabularyListErrorCode;
 import com.fullstack.backend.ono.models.constants.TypeVocabulary;
 import com.fullstack.backend.ono.models.converters.VocabularyConverter;
 import com.fullstack.backend.ono.models.dtos.VocabularyDto;
@@ -37,10 +36,14 @@ public class VocabularyService implements BaseService {
      * @return
      */
     @Transactional
-    public VocabularyDto registerVocabulary(VocabularyDto dto, UUID idList){
+    public VocabularyDto registerVocabulary(VocabularyDto dto/* , UUID idList*/){
         log.info("Registering vocabulaire : {}", dto.getWord());
 
-        vocabularyRepository.findByWordAndListVocaId(dto.getWord(), idList)
+        if(dto.getType()== null){
+            dto.setType("Unknow");
+        }
+
+        vocabularyRepository.findByWordAndListVocaId(dto.getWord(), dto.getIdListe())
         .ifPresent(voca ->{
                 log.info("This word already exists : {}", voca.getWord());
                 throw new NotFoundException(VocabularyErrorCode.ALREADY_EXISTS);
@@ -49,7 +52,7 @@ public class VocabularyService implements BaseService {
         Vocabulary sP = Vocabulary.builder()
             .word(dto.getWord())
             .definition(dto.getDefinition())
-            .listVoca(getVocaListOrError(idList))
+            .listVoca(getVocaListOrError(dto.getIdListe()))
             .type(TypeVocabulary.getByName(dto.getType()))
             .build();
         
@@ -68,6 +71,14 @@ public class VocabularyService implements BaseService {
 
         Vocabulary sp  = vocabularyRepository.findById(idVoca)
                             .orElseThrow(()-> new NotFoundException(VocabularyErrorCode.NOT_FOUND));
+        
+        vocabularyRepository.findByWordAndListVocaId(dto.getWord(), sp.getListVoca().getId())
+                            .ifPresent((voca) ->{
+                                    if(sp.getId() == voca.getId()){
+                                        log.info("This word already exists : {}", voca.getWord());
+                                        throw new NotFoundException(VocabularyErrorCode.ALREADY_EXISTS);
+                                    }
+                                });
                             
         
         sp.setType(TypeVocabulary.getByName(dto.getType()));
@@ -84,8 +95,8 @@ public class VocabularyService implements BaseService {
      * @return
      */
     @Transactional
-    public VocabularyDto deleteVocabulary(UUID idVoca, VocabularyDto dto){
-        log.info("deleting vocabulary : {}", dto.getWord());
+    public VocabularyDto deleteVocabulary(UUID idVoca){
+        log.info("deleting vocabulary : {}", idVoca);
 
         Vocabulary sp  = vocabularyRepository.findById(idVoca)
                             .orElseThrow(()-> new NotFoundException(VocabularyErrorCode.NOT_FOUND));
@@ -93,6 +104,23 @@ public class VocabularyService implements BaseService {
         vocabularyRepository.deleteById(idVoca);
         
         return vocabularyConverter.convert(sp);
+    }
+
+        /**
+     * 
+     * @param idVoca
+     * @param dto
+     * @return
+     */
+    @Transactional
+    public List<VocabularyDto> deleteAllVocabularyFromList(UUID vocaList){
+        log.info("deleting vocabulary : {}", vocaList);
+
+        List<Vocabulary> listVoca  = vocabularyRepository.findAllByListVocaId(vocaList);
+                  
+        Long nb = vocabularyRepository.deleteAllByListVocaId(vocaList);
+        
+        return listVoca.stream().map(vocabularyConverter::convert).collect(Collectors.toList());
     }
 
     /**
@@ -125,7 +153,7 @@ public class VocabularyService implements BaseService {
     
     }
 
-    /***
+    /**
      * 
      * @param idVoca
      * @return
@@ -138,7 +166,6 @@ public class VocabularyService implements BaseService {
                         .orElseThrow(()-> new NotFoundException(VocabularyErrorCode.NOT_FOUND));;
        
        return vocabularyConverter.convert(voca);
-    
     }
 
 
@@ -160,10 +187,17 @@ public class VocabularyService implements BaseService {
     
     }
 
+    /**
+     * Get la liste de vocabulaire avec son id ou une erreur
+     * @param vocaListId
+     * @return
+     */
     private VocabularyList getVocaListOrError(UUID vocaListId) {
         return vocaListRepository.findById(vocaListId)
-                .orElseThrow(() -> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(VocabularyErrorCode.NOT_FOUND));
     }
+
+    
 
     
 }

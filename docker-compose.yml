@@ -12,7 +12,7 @@ services:
     container_name: ono-database
     image: postgres:16.4
     volumes:
-      - ono-database:/var/lib/postgresql/ono-database:rw
+      - ono-database:/var/lib/postgresql/database:rw
     environment:
       POSTGRES_DB: onodb
       POSTGRES_USER: Gwen

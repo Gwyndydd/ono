@@ -54,10 +54,12 @@ public class WebSecurityConfiguration implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/study-program/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/study-program/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/study-program/**").permitAll() //A retirer - Pour test
+                        .requestMatchers(HttpMethod.GET, "/study-program/**").permitAll() //A retirer - Pour test
                         .requestMatchers(HttpMethod.GET, "/study-program/public").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/study-program/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/study-program/all").permitAll() //A retirer - Pour test
+
+                        .requestMatchers(HttpMethod.GET, "/vocabulary-list/public").permitAll()
                         
                         .anyRequest().authenticated()
                 )

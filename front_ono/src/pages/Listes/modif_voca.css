@@ -1,0 +1,60 @@
+.create-vocabulary-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .vocabulary-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .vocabulary-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    background-color: #f9f9f9;
+    position: relative;
+  }
+  
+  .vocabulary-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .error {
+    border-color: red;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .save-button,
+  .cancel-button,
+  .edit-button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .save-button {
+    background-color: #28a745;
+  }
+  
+  .cancel-button {
+    background-color: #dc3545;
+  }

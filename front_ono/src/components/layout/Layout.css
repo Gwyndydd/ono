@@ -16,6 +16,6 @@
       justify-content: center;
       flex-grow: 1;
       overflow: scroll;
-      padding: 1rem;
+      padding: 2px;
     }
 }

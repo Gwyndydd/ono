@@ -16,7 +16,7 @@ public class GrammarListConverter implements Converter<GrammarList, GrammarListD
                 .name(listGrammar.getName())
                 .langueEtudie(listGrammar.getLangueEtudie().name())
                 .idOwner(listGrammar.getOwner().getId())
-                .prive(listGrammar.getPrive())
+                .prive(listGrammar.getVisibility())
                 .build();
     }
     

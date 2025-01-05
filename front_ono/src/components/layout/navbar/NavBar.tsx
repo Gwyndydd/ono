@@ -43,7 +43,7 @@ const NavBar: FunctionComponent = () => {
                 <NavbarItem label={"Programme d'etude"} icon={<img src={reactLogo} alt='React Logo' />} to='/study_program' state={{ from: "HomePage" }}/>
             </li>
             <li>
-                <NavbarItem label={"Cartes vocabulaire"} icon={<img src={reactLogo} alt='React Logo' />} to='/' />
+                <NavbarItem label={"Cartes vocabulaire"} icon={<img src={reactLogo} alt='React Logo' />} to='/vocabulary-list' />
             </li>
             <li>
                 <NavbarItem label={"Cartes grammaire"} icon={<img src={reactLogo} alt='React Logo' />} to='/' />

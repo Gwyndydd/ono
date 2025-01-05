@@ -59,7 +59,7 @@ public class GrammarListService implements BaseService {
                 .langueEtudie(langue)
                 .studyProgram((gDto.getIdProgrammeEtude() == null) ? null: getStudyProgrammOrError(gDto.getIdProgrammeEtude()))
                 .owner(getUserOrError(user.getId()))
-                .prive(gDto.getPrive())
+                .visibility(gDto.getPrive())
                 .build();
 
         return listGrammarConverter.convert(listGrammarRepository.save(gList));
@@ -103,7 +103,7 @@ public class GrammarListService implements BaseService {
                             
         glist.setName(dto.getName());
         glist.setLangueEtudie(Langues.getByName(dto.getName()));
-        glist.setPrive(dto.getPrive());
+        glist.setVisibility(dto.getPrive());
 
         return listGrammarConverter.convert(listGrammarRepository.save(glist));
 

@@ -16,9 +16,9 @@ public class VocaListConverter implements Converter<VocabularyList,VocaListDto> 
                 .name(listVoca.getName())
                 .langueEtudie(listVoca.getLangueEtudie().name())
                 .langueDefinition(listVoca.getLangueDefinition().name())
-                .idProgrammeEtude(listVoca.getStudyProgram().getId())
+                .idProgrammeEtude((listVoca.getStudyProgram() == null) ? null : listVoca.getStudyProgram().getId())
                 .idOwner(listVoca.getOwner().getId())
-                .prive(listVoca.getPrive())
+                .prive(listVoca.getVisibility())
                 .build();
     }
     

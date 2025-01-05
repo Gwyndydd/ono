@@ -15,4 +15,10 @@ public interface VocaListRepository extends JpaRepository<VocabularyList,UUID> {
     List<VocabularyList> findAllByOwnerId(UUID idUser);
     Optional<VocabularyList> findByOwnerIdAndName(UUID idUser,String name);
     Optional<VocabularyList> findByStudyProgramId(UUID idStudyProgram);
+    
+    List<VocabularyList> findAllByVisibility(boolean visibility);
+
+    List<VocabularyList> findAllByVisibilityOrderByUpdatedAtDesc(boolean visibility);
+
+
 }

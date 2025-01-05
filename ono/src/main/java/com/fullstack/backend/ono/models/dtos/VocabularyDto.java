@@ -2,6 +2,7 @@ package com.fullstack.backend.ono.models.dtos;
 
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,15 +17,14 @@ public class VocabularyDto {
     
     private UUID idVoca;
 
-    @NotEmpty
+    //@NotEmpty
     private String word;
 
     private String definition;
 
-    @NotEmpty
     private UUID idListe;
 
-    @NotEmpty
+    //@NotEmpty
     private String type;
     
 }

@@ -61,12 +61,12 @@ const UserStudyProgramsPage: React.FunctionComponent = () => {
                     <>
                         {isLoading ? (<div>Chargement des programmes...</div>
                         ):(
-                            <div className="study-programs-list">
+                            <div className="users-list">
                             {studyPrograms && studyPrograms.length > 0 ? (
                                 studyPrograms.map((program) => (
-                                <div className="study-program-card" key={program.id}>
-                                    <h2 className="program-title">{program.name}</h2>
-                                    <p className="program-description">{program.description}</p>
+                                <div className="users-card" key={program.id}>
+                                    <h2 className="card-title">{program.name}</h2>
+                                    <p className="card-description">{program.description}</p>
                             <button
                                 className="delete-button"
                                 onClick={() => handleDelete(program.id)}>

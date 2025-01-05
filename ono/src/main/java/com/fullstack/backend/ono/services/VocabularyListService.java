@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.backend.ono.exceptions.NotFoundException;
+import com.fullstack.backend.ono.exceptions.OwnerError;
 import com.fullstack.backend.ono.exceptions.errors.StudyProgramErrorCode;
 import com.fullstack.backend.ono.exceptions.errors.UserErrorCode;
 import com.fullstack.backend.ono.exceptions.errors.VocabularyListErrorCode;
@@ -37,19 +38,19 @@ public class VocabularyListService implements BaseService {
     private final UserRepository userRepository;
 
     /**
-     * 
+     * Créer une liste de vocabulaire
      * @param gDto
      * @param user
      * @return
      */
     @Transactional
-    public VocaListDto registerVocabularyList(VocaListDto gDto, UserDto user){
+    public VocaListDto registerVocabularyList(VocaListDto gDto){
         log.info("Registering list of Vocabulary : {}", gDto.getName());
 
         Langues langueEtudie = Langues.getByName(gDto.getLangueEtudie());
         Langues langueDef = Langues.getByName(gDto.getLangueDefinition());
 
-        listVocaRepository.findByOwnerIdAndName(user.getId(), gDto.getName())
+        listVocaRepository.findByOwnerIdAndName(gDto.getIdOwner(), gDto.getName())
             .ifPresent( list -> {
                 log.info("This list of Vocabulary already exist : {}", list.getName());
                 throw new NotFoundException(VocabularyListErrorCode.ALREADY_EXISTS);
@@ -60,8 +61,8 @@ public class VocabularyListService implements BaseService {
                 .langueEtudie(langueEtudie)
                 .langueDefinition(langueDef)
                 .studyProgram((gDto.getIdProgrammeEtude() == null) ? null : getStudyProgrammOrError(gDto.getIdProgrammeEtude()))
-                .owner(getUserOrError(user.getId()))
-                .prive(gDto.getPrive())
+                .owner(getUserOrError(gDto.getIdOwner()))
+                .visibility(gDto.getPrive())
                 .build();
 
         return listVocaConverter.convert(listVocaRepository.save(gList));
@@ -69,28 +70,28 @@ public class VocabularyListService implements BaseService {
     }
 
     /**
-     * 
+     * Ajouter la liste de vocabulaire à programme d'étude
      * @param dto
      * @param idVocabularyList
      * @return
      */
     @Transactional
-    public VocaListDto addStudyProgramm(StudyProgramDto dto, UUID idVocabularyList){
+    public VocaListDto addStudyProgramm(UUID studyProgramUUID, UUID idVocabularyList){
 
-        log.info("Add study program {} to list of Vocabulary : {}", dto.getName(), idVocabularyList);
+        log.info("Add study program {} to list of Vocabulary : {}", studyProgramUUID, idVocabularyList);
 
         VocabularyList glist  = listVocaRepository.findById(idVocabularyList)
                             .orElseThrow(()-> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
                             
         
-        glist.setStudyProgram((dto.getId() == null) ? null :getStudyProgrammOrError(dto.getId()));
+        glist.setStudyProgram((studyProgramUUID == null) ? null :getStudyProgrammOrError(studyProgramUUID));
 
         return listVocaConverter.convert(listVocaRepository.save(glist));
 
     }
 
     /**
-     * 
+     * Mise à jour de la liste de vocabulaire
      * @param dto
      * @param idVocabularyList
      * @return
@@ -102,25 +103,39 @@ public class VocabularyListService implements BaseService {
 
         VocabularyList glist  = listVocaRepository.findById(idVocabularyList)
                             .orElseThrow(()-> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
-                            
+
+        
+        listVocaRepository.findByOwnerIdAndName(glist.getOwner().getId(), dto.getName())
+                            .ifPresent( list -> {
+                                if(list.getId()!=idVocabularyList){
+                                    log.info("This list of Vocabulary already exist : {}", list.getName());
+                                    throw new NotFoundException(VocabularyListErrorCode.ALREADY_EXISTS);
+                                }
+                            });
+                
+        
+        //log.info("Langue etudie :{}", dto.getLangueEtudie());
+
         glist.setName(dto.getName());
-        glist.setLangueEtudie(Langues.getByName(dto.getName()));
-        glist.setPrive(dto.getPrive());
+        glist.setLangueEtudie(Langues.getByName(dto.getLangueEtudie()));
+        glist.setLangueDefinition(Langues.getByName(dto.getLangueDefinition()));
+        glist.setVisibility(dto.getPrive());
 
         return listVocaConverter.convert(listVocaRepository.save(glist));
 
     }
 
     /**
-     * 
+     * Supprimer la liste de vocabulaire
      * @param gDto
      * @return
      */
     @Transactional
-    public VocaListDto deleVocabularyList(VocaListDto gDto){
+    public VocaListDto deleVocabularyList(UUID vocaListId){
 
-        VocabularyList glist  = listVocaRepository.findById(gDto.getId())
+        VocabularyList glist  = listVocaRepository.findById(vocaListId)
                             .orElseThrow(()-> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
+        listVocaRepository.deleteById(vocaListId);
         
         return listVocaConverter.convert(glist);
         
@@ -128,7 +143,7 @@ public class VocabularyListService implements BaseService {
 
 
     /**
-     * 
+     * Obtenir une liste de vocabulaire par son id
      * @param id
      * @return 
      */
@@ -141,16 +156,16 @@ public class VocabularyListService implements BaseService {
                 .orElseThrow(()-> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
     }
 
-        /**
-     * Transaction pour obtenir un programme d'etude
+    /**
+     * Transaction pour obtenir un programme d'etude par son nom et id de l'utilisateur
      * @param id
      * @return StudyProgramDto
      */
     @Transactional(readOnly = true)
-    public VocaListDto getVocabularyListByOwnerName(String name, UserDto user){
+    public VocaListDto getVocabularyListByOwnerName(String name, UUID idUser){
         log.info("Retrieving programm by name : {}", name);
 
-        return listVocaRepository.findByOwnerIdAndName(user.getId(), name)
+        return listVocaRepository.findByOwnerIdAndName(idUser, name)
                 .map(listVocaConverter::convert)
                 .orElseThrow(()-> new NotFoundException(VocabularyListErrorCode.NOT_FOUND));
     }
@@ -161,21 +176,45 @@ public class VocabularyListService implements BaseService {
      * @return List<StudyProgramDto>
      */
     @Transactional(readOnly = true)
-    public List<VocaListDto> getAllVocabularyListByOwner(UserDto userDto){
-        log.info("Finding all study program of : {}", userDto.getUsername());
+    public List<VocaListDto> getAllVocabularyListByOwner(UUID idUser){
+        log.info("Finding all vocabulary list of : {}", idUser);
 
-       List<VocabularyList> listG = listVocaRepository.findAllByOwnerId(userDto.getId());
+       List<VocabularyList> listG = listVocaRepository.findAllByOwnerId(idUser);
        
        return listG.stream().map(listVocaConverter::convert).collect(Collectors.toList());
     
     }
 
+    /**
+     * Obtenir obtenir tout les listes de vocabulaire par visibilité
+     * @param visibility
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<VocaListDto> getAllVocabularyListByVisibility(boolean visibility){
+        log.info("Finding all vocabulary list with visibility of : {}", visibility);
 
-        private User getUserOrError(UUID userId) {
+       List<VocabularyList> listVoca = listVocaRepository.findAllByVisibilityOrderByUpdatedAtDesc(visibility);
+       
+       return listVoca.stream().map(listVocaConverter::convert).collect(Collectors.toList());
+    
+    }
+
+    /**
+     * Obtenir l'utilisateur
+     * @param userId
+     * @return
+     */
+    private User getUserOrError(UUID userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(UserErrorCode.NOT_FOUND));
     }
 
+    /**
+     * Obtenir un programme d'étude
+     * @param studyProgrammId
+     * @return
+     */
     private StudyProgram getStudyProgrammOrError(UUID studyProgrammId) {
         return studyProgrammRepository.findById(studyProgrammId)
                 .orElseThrow(() -> new NotFoundException(StudyProgramErrorCode.NOT_FOUND));
